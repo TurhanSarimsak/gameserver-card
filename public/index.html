@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>gameserver-card</title>
+  <meta name="description" content="Live SVG status cards for Minecraft, Source engine and FiveM servers.">
+  <style>
+    :root { --bg: #0b0e14; --panel: #11151d; --line: #232a36; --text: #e6edf3; --muted: #8b949e; --accent: #58a6ff; --ok: #3fb950; }
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100vh; background: radial-gradient(1200px 600px at 50% -10%, #1b2a4a 0%, var(--bg) 60%); color: var(--text);
+           font: 15px/1.5 "Segoe UI", Ubuntu, "Helvetica Neue", Arial, sans-serif; }
+    main { max-width: 760px; margin: 0 auto; padding: 56px 16px 80px; }
+    h1 { font-size: clamp(28px, 6vw, 44px); margin: 0 0 8px; letter-spacing: -0.02em; }
+    h1 span { background: linear-gradient(90deg, var(--accent), var(--ok)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    p.lead { color: var(--muted); margin: 0 0 32px; }
+    form { display: grid; grid-template-columns: 1fr 2fr 1fr 1fr; gap: 10px; }
+    @media (max-width: 640px) { form { grid-template-columns: 1fr 1fr; } }
+    label { display: grid; gap: 4px; font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; }
+    input, select { width: 100%; padding: 10px 12px; border-radius: 8px; border: 1px solid var(--line); background: var(--panel); color: var(--text); font: inherit; }
+    input:focus, select:focus { outline: 2px solid var(--accent); outline-offset: -1px; }
+    .preview { margin: 28px 0 16px; min-height: 140px; display: grid; place-items: center; }
+    .preview img { max-width: 100%; }
+    .snippet { position: relative; }
+    pre { margin: 0; padding: 14px 16px; padding-right: 80px; border-radius: 10px; border: 1px solid var(--line); background: var(--panel);
+          white-space: pre-wrap; word-break: break-all; font: 13px/1.5 ui-monospace, "Cascadia Code", Consolas, monospace; color: var(--muted); }
+    button { position: absolute; top: 8px; right: 8px; padding: 6px 12px; border-radius: 6px; border: 1px solid var(--line);
+             background: #1a2130; color: var(--text); font: inherit; font-size: 13px; cursor: pointer; }
+    button:hover { border-color: var(--accent); }
+    footer { margin-top: 48px; color: var(--muted); font-size: 13px; }
+    a { color: var(--accent); }
+  </style>
+</head>
+<body>
+<main>
+  <h1>gameserver-<span>card</span></h1>
+  <p class="lead">Live status cards for your Minecraft, Source engine and FiveM servers. Paste one into a README, website or Discord.</p>
+
+  <form id="form">
+    <label>Game
+      <select name="game">
+        <option value="minecraft">Minecraft</option>
+        <option value="source">Source (CS2, Rust, GMod…)</option>
+        <option value="fivem">FiveM</option>
+      </select>
+    </label>
+    <label>Host <input name="host" value="play.cubecraft.net" autocomplete="off" spellcheck="false"></label>
+    <label>Port <input name="port" placeholder="default" inputmode="numeric"></label>
+    <label>Theme
+      <select name="theme">
+        <option>dark</option><option>light</option><option>dracula</option>
+        <option>nord</option><option>tokyonight</option><option>synthwave</option>
+      </select>
+    </label>
+  </form>
+
+  <div class="preview"><img id="preview" alt="Server status card preview" width="460" height="140"></div>
+
+  <div class="snippet">
+    <pre id="markdown"></pre>
+    <button type="button" id="copy">Copy</button>
+  </div>
+
+  <footer>Also available: <code>/api/status</code> (JSON) and <code>/api/shields</code> (shields.io endpoint).
+    Source on <a href="https://github.com/TurhanSarimsak/gameserver-card">GitHub</a>.</footer>
+</main>
+<script>
+  const form = document.getElementById("form");
+  const preview = document.getElementById("preview");
+  const markdown = document.getElementById("markdown");
+  const copy = document.getElementById("copy");
+  let timer;
+
+  function update() {
+    const params = new URLSearchParams();
+    for (const [key, value] of new FormData(form)) if (String(value).trim()) params.set(key, String(value).trim());
+    const url = `${location.origin}/api/card?${params}`;
+    preview.src = url;
+    markdown.textContent = `![Server status](${url})`;
+  }
+
+  form.addEventListener("input", () => { clearTimeout(timer); timer = setTimeout(update, 400); });
+  copy.addEventListener("click", async () => {
+    try { await navigator.clipboard.writeText(markdown.textContent); copy.textContent = "Copied!"; }
+    catch { copy.textContent = "Select & copy"; }
+    setTimeout(() => (copy.textContent = "Copy"), 1500);
+  });
+  update();
+</script>
+</body>
+</html>

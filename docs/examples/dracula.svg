@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="460" height="140" viewBox="0 0 460 140" role="img" aria-labelledby="card-title">
+  <title id="card-title">play.example.net is online with 87 of 150 players</title>
+  <defs>
+    <clipPath id="icon"><rect x="20" y="20" width="52" height="52" rx="10"/></clipPath>
+    <linearGradient id="fill" x1="0" x2="1">
+      <stop offset="0" stop-color="#bd93f9"/>
+      <stop offset="1" stop-color="#3fb950"/>
+    </linearGradient>
+  </defs>
+  <style>
+    text { font-family: "Segoe UI", Ubuntu, "Helvetica Neue", Arial, sans-serif; }
+    .title { font-size: 16px; font-weight: 600; fill: #f8f8f2; }
+    .sub { font-size: 12px; fill: #bfbfd6; }
+    .meta { font-size: 11px; fill: #bfbfd6; }
+    .label { font-size: 10px; font-weight: 700; letter-spacing: 1.2px; fill: #bfbfd6; }
+    .count { font-size: 13px; font-weight: 600; fill: #f8f8f2; }
+    .max { font-weight: 400; fill: #bfbfd6; }
+    .glyph { font-size: 15px; font-weight: 800; fill: #bd93f9; }
+    .state { font-size: 11px; font-weight: 700; letter-spacing: 1px; fill: #3fb950; }
+    
+    .fade { opacity: 0; animation: fade .6s ease-out forwards; }
+    .grow { transform-box: fill-box; transform-origin: left center; transform: scaleX(0);
+            animation: grow 1.1s cubic-bezier(.2,.8,.2,1) .25s forwards; }
+    .pulse { transform-box: fill-box; transform-origin: center; animation: pulse 1.8s ease-out infinite; }
+    @keyframes fade { to { opacity: 1; } }
+    @keyframes grow { to { transform: scaleX(1); } }
+    @keyframes pulse { from { opacity: .7; transform: scale(1); } to { opacity: 0; transform: scale(2.8); } }
+    @media (prefers-reduced-motion: reduce) {
+      .fade, .grow { animation: none; opacity: 1; transform: none; }
+      .pulse { display: none; }
+    }
+  </style>
+  <rect x="0.5" y="0.5" width="459" height="139" rx="12" fill="#282a36" stroke="#44475a"/>
+  <g class="fade">
+    <rect x="20" y="20" width="52" height="52" rx="10" fill="#44475a"/>
+    <text x="46" y="51" text-anchor="middle" class="glyph">MC</text>
+  </g>
+  <g class="fade" style="animation-delay:.1s">
+    <text x="92" y="40" class="title">play.example.net</text>
+    <text x="92" y="60" class="sub">Survival · Skyblock · Events every weekend</text>
+    <text x="92" y="78" class="meta">Paper 1.21.1 · <tspan fill="#3fb950">34 ms</tspan> · play.example.net:25565</text>
+  </g>
+  <g>
+    <circle class="pulse" cx="385.4" cy="34" r="4" fill="#3fb950"/>
+    <circle cx="385.4" cy="34" r="4" fill="#3fb950"/>
+    <text x="440" y="38" text-anchor="end" class="state">ONLINE</text>
+  </g>
+  <g class="fade" style="animation-delay:.2s">
+    <text x="20" y="108" class="label">PLAYERS</text>
+    <text x="440" y="108" text-anchor="end" class="count">87<tspan class="max"> / 150</tspan></text>
+    <rect x="20" y="116" width="420" height="8" rx="4" fill="#44475a"/>
+    <rect class="grow" x="20" y="116" width="244" height="8" rx="4" fill="url(#fill)"/>
+  </g>
+</svg>
